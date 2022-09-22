@@ -1,30 +1,24 @@
 package ru.kata.spring.bootstrap_security.pp_3_1_3_bootstrap_security.configs;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import ru.kata.spring.bootstrap_security.pp_3_1_3_bootstrap_security.services.UserDetailsServiceImpl;
 
 @EnableWebSecurity
 @EnableTransactionManagement
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
-    private UserDetailsServiceImpl userService;
+    private final UserDetailsService userService;
 
-    @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, @Lazy UserDetailsServiceImpl userService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, @Lazy UserDetailsService userService) {
         this.successUserHandler = successUserHandler;
         this.userService = userService;
-    }
-
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
-        this.successUserHandler = successUserHandler;
     }
 
     @Override

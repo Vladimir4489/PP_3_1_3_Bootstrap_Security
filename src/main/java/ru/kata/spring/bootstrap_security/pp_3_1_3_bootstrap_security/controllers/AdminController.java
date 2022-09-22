@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.bootstrap_security.pp_3_1_3_bootstrap_security.model.Role;
 import ru.kata.spring.bootstrap_security.pp_3_1_3_bootstrap_security.model.User;
-import ru.kata.spring.bootstrap_security.pp_3_1_3_bootstrap_security.services.RoleServiceImpl;
-import ru.kata.spring.bootstrap_security.pp_3_1_3_bootstrap_security.services.UserDetailsServiceImpl;
+import ru.kata.spring.bootstrap_security.pp_3_1_3_bootstrap_security.services.RoleService;
+import ru.kata.spring.bootstrap_security.pp_3_1_3_bootstrap_security.services.UserService;
 
 import java.security.Principal;
 import java.util.List;
@@ -15,16 +15,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final UserDetailsServiceImpl userService;
-    private final RoleServiceImpl roleServiceImpl;
-
+    private final UserService userService;
+    private final RoleService roleService;
     @Autowired
-    public AdminController(UserDetailsServiceImpl userService, RoleServiceImpl roleServiceImpl) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
-        this.roleServiceImpl = roleServiceImpl;
+        this.roleService = roleService;
     }
-
-
 
     @PostMapping("/createNewUser")
     public String createNewUser(@ModelAttribute("user") User user) {
@@ -39,7 +36,7 @@ public class AdminController {
         model.addAttribute("users", userService.getAllUsers());
 
 
-        List<Role> roleList = roleServiceImpl.getAllRoles();
+        List<Role> roleList = roleService.getAllRoles();
         model.addAttribute("user", new User());
         model.addAttribute("list", roleList);
         return "admin/admin";
